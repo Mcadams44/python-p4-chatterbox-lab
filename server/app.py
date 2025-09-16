@@ -16,12 +16,13 @@ with app.app_context():
     db.create_all()
     if not Message.query.first():
         from faker import Faker
+        from random import choice
         fake = Faker()
         usernames = ['Alice', 'Bob', 'Charlie', 'Duane']
         for i in range(5):
             message = Message(
                 body=fake.sentence(),
-                username=fake.choice(usernames)
+                username=choice(usernames)
             )
             db.session.add(message)
         db.session.commit()
