@@ -14,6 +14,17 @@ db.init_app(app)
 
 with app.app_context():
     db.create_all()
+    if not Message.query.first():
+        from faker import Faker
+        fake = Faker()
+        usernames = ['Alice', 'Bob', 'Charlie', 'Duane']
+        for i in range(5):
+            message = Message(
+                body=fake.sentence(),
+                username=fake.choice(usernames)
+            )
+            db.session.add(message)
+        db.session.commit()
 
 @app.route('/messages', methods=['GET', 'POST'])
 def messages():
